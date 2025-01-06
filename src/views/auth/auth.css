@@ -1,0 +1,165 @@
+/* this is the stylesheet for the sign-in and login page */
+@import url("src\assets\base.css");
+a{
+    color: var(--dark-green);
+    text-decoration: none;
+}
+button{
+    cursor: pointer;
+}
+body{
+    min-height: 100vh;
+}
+main{
+    display: flex;
+    flex-direction: row;
+}
+a,p,button{
+    font-family: "Raleway", sans-serif;
+}
+.left-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex: 1;
+    background-color: var(--lightest-green)
+}
+.right-div{
+    background-color: var(--dark-green);
+    height: 100vh;
+    flex: 1;
+}
+.enroll{
+    flex-basis: 50%;
+    padding: .5em 0;
+}
+.ld-wrapper{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.ld-wrapper h2{
+    font-size: 2em;
+    font-family: "Playfair Display", serif;
+    line-height: 3em;
+}
+.tech-companies-wrapper{
+    width: 100%;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+.tech-companies-wrapper button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tech-companies-wrapper button img{
+    width:1.2em;
+}
+.email-form{
+    width: 100%;
+    text-align: center;
+}
+.line-text{
+    display: flex;
+    gap: .5em;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 2em;
+}
+.line-text span{
+    /* width: 100%; */
+    flex: 1;
+    display: inline-block;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--egg-white); 
+    /* background-color: black; */
+}
+.ef-input{
+    display: flex;
+    gap: .85em;
+    flex-direction: column;
+    margin-bottom: .85em;
+}
+.ef-input input{
+    font-weight: bold;
+}
+.ef-input input:placeholder-shown{
+    font-weight: lighter;
+}
+.ef-input input,.create,.tech-companies-wrapper button{
+    padding: var(--pa) ;
+}
+.ef-row2{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.65em;
+}
+.ef-row2 input{
+    accent-color: var(--dark-green);
+}
+button,input{
+    background-color: transparent;
+    border: 2px solid var(--egg-white);
+    border-radius: var(--br-a);
+}
+.create{
+    width: 100%;
+    margin-bottom: 1em;
+    background-color: var(--dark-green);
+    color: var(--lightest-green);
+    border: none;
+}
+.ef-input input:focus{
+    border: none;
+    outline: 2px solid var(--dark-green);
+    /* background-color: var(--light-green); */
+    color: var(--dark-green);
+}
+
+/* Sign up styling */
+.full-name-field{
+    width:100%;
+    display: flex;
+    gap: 1em ;
+    margin-bottom: .9em;
+}
+.full-name-field input{
+    /* background-color: black ; */
+    padding: var(--pa);
+    width:100%;
+}
+.signupPage .ef-row2{
+    justify-content: center;
+}
+.original-div{
+    position: relative;
+}
+.password-div input{
+    width: 100%;
+}
+.eye-toggle{
+    position: absolute;
+    cursor: pointer;
+    top: 30%;
+    right: 16px;
+    color: var(--egg-white);
+}
+@media (max-width: 768px) {
+ .right-div {
+        flex: 1 1 100%;
+        min-height: auto;
+        height: auto;
+    }
+    main {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+}
