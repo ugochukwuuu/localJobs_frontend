@@ -49,7 +49,9 @@
             router.replace('/jobs')
             toast.success(data.code)
 
-
+////for some reason I get this error in the console of brave, gpt down for now, maybe network issue but when back will handle appropriately
+///this is the error message router.js:11 Uncaught ReferenceError: Cannot access 'LoginView' before initialization
+///dunno what that means, seems like initialization problems
         }
         catch(error){
             toast.error(error.response.data.message)
