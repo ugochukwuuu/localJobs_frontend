@@ -1,8 +1,8 @@
 <script setup>
-
+    // import SideBarNav from '@/components/SideBarNav.vue'
 </script>
 
 <template>
-    <h1>hello there
-    </h1>
+    <!-- <SideBarNav/> -->
+    <h1>hello there</h1>
 </template>

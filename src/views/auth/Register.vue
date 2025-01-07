@@ -1,5 +1,5 @@
 <script setup>
-    import '@/views/auth/auth.css'
+    import "@/assets/stylings/auth.css"
     import { reactive } from 'vue';
     import { RouterLink } from 'vue-router';
     import { useToast } from 'vue-toastification';
@@ -7,7 +7,7 @@
     import axios from 'axios';
     import apiConfig from '@/config/apiConfig'
     import router from '@/Router/router';
-
+    import { jwtDecode } from "jwt-decode";
     const toast = useToast();
 
     const formData = reactive(
@@ -15,6 +15,7 @@
             name: "",
             email: "",
             password: "",
+            role: "",
         }
     )
 
@@ -24,6 +25,7 @@
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     
+    let userRole = ref('');
 
     const validate = () => {
         if (formData.name === "" || formData.name == null) {
@@ -36,6 +38,10 @@
         }
         if (formData.password === "" || formData.password == null) {
             toast.warning('Password is required');
+            return false;
+        }
+        if(formData.role == "" || formData.role == null){
+            toast.warning('Please select your role')
             return false;
         }
         if (!emailRegex.test(formData.email)) {
@@ -66,10 +72,20 @@
             console.log(data)
             toast.success(data.code)
 
-            localStorage.setItem('authToken',data.token);
-            localStorage.setItem('userId',data.id);
             console.log(localStorage)
+            
+            if(data.token){
+                const payload = jwtDecode(data.token);
+                localStorage.setItem('authToken',data.token);
+                localStorage.setItem('userRole',payload.user_role);
 
+                console.log(localStorage.authToken);
+                console.log(localStorage.userRole);
+
+            }
+            else{
+                toast.error('authToken not sent by the server')
+            }
             router.replace('/jobs')
         }
         catch(error){
@@ -82,6 +98,11 @@
         console.log('working')
         passwordVisisble.value = !passwordVisisble.value
     }
+    const updateRole = (e) =>{
+        formData.role = e.target.id;
+        userRole.value = e.target.id;
+        console.log(userRole)
+    }
 </script>
 
 <template>
@@ -91,10 +112,38 @@
             <div class="ld-wrapper">
                 <h2>Create Your Account✨</h2>
                 <form class="email-form" @submit="registerFunc">
-                    <div class="line-text">
-                        <span></span>
-                        <p>or continue with email</p>
-                        <span></span>
+                    <div class="role-selection-div">
+                        <div class="line-text">
+                            <span></span>
+                            <p>How do you want to use localJobs?</p>
+                            <span></span>
+                        </div>
+                        <div class="role-selection-options option">
+                            <button 
+                            :class="['role', 
+                            !userRole? 'normal': userRole === 'freelancer'? 'selected': 'normal']" 
+                            type="button" 
+                            id="freelancer"
+                             @click="updateRole">Freelancer</button>
+                            <button 
+                            :class="['role',
+                            
+                            !userRole? 'normal': userRole !== 'freelancer'? 'selected': 'normal']" 
+                            type="button" 
+                            id="recruiter" 
+                            @click="updateRole">Recruiter</button>    
+                        </div>
+                        <p class="role-description">
+                        {{ !userRole ? ''
+                            : userRole === 'freelancer'? 
+                            `As a freelancer, you’ll browse and 
+                            apply for local jobs that match your 
+                            skills and interests`
+                            : `As a recruiter, you’ll post 
+                            job opportunities and connect with talented 
+                            freelancers nearby.` }}
+                        
+                        </p>
                     </div>
                     <div class="full-name-field">
                         <input v-model="formData.name" type="text" class="user-name" id="firstName" placeholder="John">

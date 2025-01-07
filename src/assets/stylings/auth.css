@@ -1,8 +1,11 @@
 /* this is the stylesheet for the sign-in and login page */
-@import url("src\assets\base.css");
+@import url("src\assets\stylings\base.css");
 a{
     color: var(--dark-green);
     text-decoration: none;
+}
+input[type = 'text']{
+    background-color: transparent;
 }
 button{
     cursor: pointer;
@@ -47,32 +50,41 @@ a,p,button{
     font-family: "Playfair Display", serif;
     line-height: 3em;
 }
-.tech-companies-wrapper{
-    width: 100%;
-    display: flex;
-    gap: 1em;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1em;
-}
-.tech-companies-wrapper button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.tech-companies-wrapper button img{
-    width:1.2em;
-}
 .email-form{
     width: 100%;
     text-align: center;
+}
+.role-selection-div{
+    display:flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+.role-selection-options{
+    display: flex;
+    gap: 7px;
+}
+.role-selection-options .role{
+    flex-basis: 50%;
+}
+.role-selection-options .selected{
+    background-color: var(--dark-green);
+    color: var(--lightest-green);
+    border: none;
+}
+.role-selection-options .normal{
+    border: 3px solid var(--egg-white);
+    padding: 10px;
+}
+.role-selection-options .role:hover{
+    border: 3px solid var(--dark-green);
+    padding: 10px;
 }
 .line-text{
     display: flex;
     gap: .5em;
     align-items: center;
     flex-direction: row;
-    margin-bottom: 2em;
 }
 .line-text span{
     /* width: 100%; */
@@ -117,10 +129,9 @@ button,input{
     color: var(--lightest-green);
     border: none;
 }
-.ef-input input:focus{
+.ef-input input:focus,.full-name-field input:focus{
     border: none;
     outline: 2px solid var(--dark-green);
-    /* background-color: var(--light-green); */
     color: var(--dark-green);
 }
 
@@ -132,7 +143,7 @@ button,input{
     margin-bottom: .9em;
 }
 .full-name-field input{
-    /* background-color: black ; */
+    background-color: transparent !important ;
     padding: var(--pa);
     width:100%;
 }

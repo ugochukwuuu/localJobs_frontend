@@ -1,24 +1,29 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import LoginView from '@/views/auth/Login.vue';
-import RegisterView from '@/views/auth/Register.vue';
-import JobsView from '@/views/auth/Jobs.vue';
+// import LoginView from '@/views/auth/Login.vue';
+// import RegisterView from '@/views/auth/Register.vue';
+// import JobsView from '@/views/auth/Jobs.vue';
+
+const loginView = () =>import('@/views/auth/Login.vue');
+const registerView = ()=> import('@/views/auth/Register.vue');
+const jobsView = () => import('@/views/auth/Jobs.vue');
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes:[
         {
             path: '/auth/login',
             name: 'login',
-            component:  LoginView,
+            component:  loginView,
         },
         {
             path: '/auth/register',
             name: 'register',
-            component:  RegisterView,
+            component:  registerView,
         },
         {
             path: '/jobs',
             name: 'Jobs',
-            component:  JobsView,
+            component:  jobsView,
             meta: {requiresAuth: true}
         },
     ], 

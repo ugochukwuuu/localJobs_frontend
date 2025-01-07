@@ -1,5 +1,6 @@
 <script setup>
-    import '@/views/auth/auth.css'
+    // import '@/views/auth/auth.css'
+    import "@/assets/stylings/auth.css"
     import { reactive } from 'vue';
     import { RouterLink } from 'vue-router';
     import { useToast } from 'vue-toastification';
@@ -46,12 +47,10 @@
             localStorage.setItem('authToken',data.token);
             localStorage.setItem('userId',data.user.id);
             console.log(localStorage)
-            router.replace('/jobs')
-            toast.success(data.code)
+            // router.replace('/jobs');
+            window.location.href = '/jobs'
+            toast.success(data.message)
 
-////for some reason I get this error in the console of brave, gpt down for now, maybe network issue but when back will handle appropriately
-///this is the error message router.js:11 Uncaught ReferenceError: Cannot access 'LoginView' before initialization
-///dunno what that means, seems like initialization problems
         }
         catch(error){
             toast.error(error.response.data.message)
