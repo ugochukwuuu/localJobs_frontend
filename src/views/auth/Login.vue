@@ -3,11 +3,13 @@
     import "@/assets/stylings/auth.css"
     import { reactive } from 'vue';
     import { RouterLink } from 'vue-router';
-    import { useToast } from 'vue-toastification';
+    import { createToastInterface, useToast } from 'vue-toastification';
     import { ref } from 'vue';
     import axios from 'axios';
     import apiConfig from '@/config/apiConfig';
-    import router from '@/Router/router';
+    import router from '@/Router/router';   
+    import { jwtDecode } from "jwt-decode";
+
 
     const toast = useToast();
     const formData = reactive( {
@@ -43,18 +45,29 @@
         try{
             const response = await axios.post(`${apiConfig.baseUrl}${apiConfig.login}`, formData);
             const  data = response.data;
-
-            localStorage.setItem('authToken',data.token);
-            localStorage.setItem('userId',data.user.id);
             console.log(localStorage)
-            // router.replace('/jobs');
-            window.location.href = '/jobs'
+            
+            if(data.token){
+                const payload = jwtDecode(data.token);
+                localStorage.setItem('authToken',data.token);
+                localStorage.setItem('userRole',payload.user_role);
+
+                const userRole = localStorage.userRole;
+                router.replace(`/${userRole}/dashboard`);
+
+            }
+            else{
+                toast.error('authToken not sent by the server')
+            }
             toast.success(data.message)
 
         }
         catch(error){
-            toast.error(error.response.data.message)
-            console.log(error)
+            if (!error.response || !error.response.data || !error.response.data.message) {
+            toast.error('An unknown error occurred');
+            } else {
+            toast.error(error.response.data.message);
+            }
         }
     }
 
