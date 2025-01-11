@@ -79,16 +79,13 @@
                 localStorage.setItem('authToken',data.token);
                 localStorage.setItem('userRole',payload.user_role);
 
+                const userRole = localStorage.userRole;
+                router.replace(`/${userRole}`);
             }
             else{
                 toast.error('authToken not sent by the server')
             }
-            if(formData.role == freelancer){
-                router.replace('/freelancer/complete-profile');
-            }
-            else{
-                router.replace('/recruiter/complete-profile');
-            }
+
         }
         catch(error){
             toast.error(error.response.data.message)

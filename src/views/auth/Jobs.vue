@@ -4,5 +4,5 @@
 
 <template>
     <!-- <SideBarNav/> -->
-    <h1>hello there</h1>
+    <h1>hello mi amor</h1>
 </template>

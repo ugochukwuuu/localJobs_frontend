@@ -1,0 +1,39 @@
+@import url("src\assets\stylings\base.css");
+
+:root{
+    --coherent-spacing: 1.5rem;
+    --nav-button-spacing: .6em;
+    --nav-button-border-radius: 6px;
+}
+.main-nav-cont{
+    width: 100%;
+    padding: var(--coherent-spacing);
+}
+.nav-links{
+    gap: .3em;
+
+}
+.router-view{
+    padding: 0 var(--coherent-spacing);
+}
+.normal{
+    color: black;
+}
+.router-link-active{
+    padding: var(--nav-button-spacing);
+    color: white;
+    background-color: rgb(91, 186, 91);
+}
+.normal,.router-link-active{
+    padding: var(--nav-button-spacing);
+    border-radius: var(--nav-button-border-radius);
+}
+.normal:hover{
+    background-color: green;
+}
+
+.normal:hover,.router-link-active:hover{
+    background-color: green;
+    color: white;
+    
+}

@@ -53,7 +53,7 @@
                 localStorage.setItem('userRole',payload.user_role);
 
                 const userRole = localStorage.userRole;
-                router.replace(`/${userRole}/dashboard`);
+                router.replace(`/${userRole}`);
 
             }
             else{
