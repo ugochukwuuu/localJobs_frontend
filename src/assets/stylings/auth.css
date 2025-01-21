@@ -1,5 +1,5 @@
 /* this is the stylesheet for the sign-in and login page */
-@import url("src\assets\stylings\base.css");
+@import url("src/assets/stylings/base.css");
 a{
     color: var(--dark-green);
     text-decoration: none;
