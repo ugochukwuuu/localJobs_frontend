@@ -29,7 +29,8 @@
     border-radius: var(--nav-button-border-radius);
 }
 .normal:hover{
-    background-color: green;
+    background-color: var(--dark-green);
+
 }
 
 .normal:hover,.router-link-active:hover{

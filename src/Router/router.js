@@ -3,7 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 const loginView = () =>import('@/views/auth/Login.vue');
 const registerView = ()=> import('@/views/auth/Register.vue');
 const jobsView = () => import('@/views/auth/Jobs.vue');
-const notFoundView = () => import('@/views/NotFound.vue');
+const notFoundView = () => import('@/views/notFound.vue');
 const NavBarView = ()=> import('@/components/Navbar.vue');
 const freelancerSkeleton = () => import('@/views/freelancer/FreeLancerSkeleton.vue')
 const freelancerJobsView = () => import('@/views/freelancer/Jobs.vue')

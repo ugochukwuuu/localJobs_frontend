@@ -41,34 +41,35 @@
         if(!validate()) return;
 
         console.log(formData)
+        router.replace('freelancer/jobs');
 
-        try{
-            const response = await axios.post(`${apiConfig.baseUrl}${apiConfig.login}`, formData);
-            const  data = response.data;
-            console.log(localStorage)
+        // try{
+        //     const response = await axios.post(`${apiConfig.baseUrl}${apiConfig.login}`, formData);
+        //     const  data = response.data;
+        //     console.log(localStorage)
             
-            if(data.token){
-                const payload = jwtDecode(data.token);
-                localStorage.setItem('authToken',data.token);
-                localStorage.setItem('userRole',payload.user_role);
+        //     if(data.token){
+        //         const payload = jwtDecode(data.token);
+        //         localStorage.setItem('authToken',data.token);
+        //         localStorage.setItem('userRole',payload.user_role);
+                
+        //         const userRole = localStorage.userRole;
+        //         router.replace(`/${userRole}`);
 
-                const userRole = localStorage.userRole;
-                router.replace(`/${userRole}`);
+        //     }
+        //     else{
+        //         toast.error('authToken not sent by the server')
+        //     }
+        //     toast.success(data.message)
 
-            }
-            else{
-                toast.error('authToken not sent by the server')
-            }
-            toast.success(data.message)
-
-        }
-        catch(error){
-            if (!error.response || !error.response.data || !error.response.data.message) {
-            toast.error('An unknown error occurred');
-            } else {
-            toast.error(error.response.data.message);
-            }
-        }
+        // }
+        // catch(error){
+        //     if (!error.response || !error.response.data || !error.response.data.message) {
+        //     toast.error('An unknown error occurred');
+        //     } else {
+        //     toast.error(error.response.data.message);
+        //     }
+        // }
     }
 
     const passwordVisisble = ref(false);
@@ -98,7 +99,7 @@
                         <i :class="['eye-toggle', passwordVisisble?  'pi pi-eye': 'pi pi-eye-slash']" @click="togglePassword"></i>
                     </div>
                     </div>
-                    <button type="submit" class="create">Create</button>
+                    <button type="submit" class="create">Login</button>
                 </form>
                 <p class="login">Don't have an Account? <RouterLink to="/auth/register">Register</RouterLink></p>
             </div>
