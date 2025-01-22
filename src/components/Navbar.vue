@@ -4,12 +4,15 @@
     import "@/assets/stylings/userRoles.css"
     import { supabase } from '@/config/supabase';
     import router from '@/Router/router';
+    import { ref } from 'vue';
+
 
     const isActive = (routePath) => {
       const route = useRoute();
       return route.path === routePath;
     }
 
+    const logoutLoading = ref(false);
     const logoutFunc = async () => {
 
       await logoutUser();
@@ -21,6 +24,7 @@
 
     const logoutUser = async () =>{
       console.log('logging you out')
+      logoutLoading.value = true;
       let { error } = await supabase.auth.signOut()
 
       if(error){
@@ -89,9 +93,11 @@
                   </RouterLink
                 >
 
-                <button @click="logoutFunc" class = "logout-btn">
-                logout
-                <i class="pi pi-sign-out"></i>
+                <button @click="logoutFunc" class="logout-btn" :disabled="logoutLoading">
+                <span v-if="!logoutLoading">Logout</span>
+                <span v-else>Logging out...</span>
+                <i v-if="logoutLoading" class="pi pi-spin pi-spinner"></i>
+                <i v-if="!logoutLoading" class="pi pi-sign-out"></i>
                 </button>
               </div>
 

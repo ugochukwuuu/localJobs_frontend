@@ -57,17 +57,17 @@ const router = createRouter({
             meta: { requiresAuth: true, allowedRoles: ['freelancer'] },
             children:[
                 {
-                    path: '/jobs/:userId',
+                    path: 'jobs/:userId',
                     name: 'Jobs',
                     component: freelancerJobsView
                 },
                 {
-                    path: '/proposals/:userId',
+                    path: 'proposals/:userId',
                     name: 'Proposal',
                     component: freelancerProposalsView
                 },
                 {
-                    path: '/profile/:userId',
+                    path: 'profile/:userId',
                     name: 'Profile',
                     component: freelancerProfileView
                 },
@@ -85,12 +85,12 @@ const router = createRouter({
                     component: recruiterJobsPostingView
                 },
                 {
-                    path: '/proposals/:userId',
+                    path: 'proposals/:userId',
                     name: 'Proposal',
                     component: recruiterProposalsView
                 },
                 {
-                    path: '/profile/:userId',
+                    path: 'profile/:userId',
                     name: 'Profile',
                     component: recruiterProfileView
                 },
