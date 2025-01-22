@@ -14,6 +14,7 @@ const recruiterJobsPostingView = () => import('@/views/recruiter/JobPostings.vue
 const recruiterProposalsView = () => import('@/views/recruiter/Proposals.vue')
 const recruiterProfileView = () => import('@/views/freelancer/Profile.vue')
 
+const userRole = localStorage.getItem('userRole');
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes:[
@@ -21,7 +22,17 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: jobsView,
-            meta:{requiresAuth:true}
+            meta:{requiresAuth:true},
+            redirect(){
+                const userRole = localStorage.getItem('userRole');
+                const userId = localStorage.getItem('userId');
+
+                if (userRole && userId) {
+                    return `/${userRole}/jobs/${userId}`;
+                  }
+
+                return '/auth/login';
+            }
         },
         {
             path: '/auth/login',

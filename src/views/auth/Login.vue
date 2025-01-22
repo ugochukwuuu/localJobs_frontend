@@ -62,6 +62,7 @@
         const authToken = authUser.session.access_token;
 
         localStorage.setItem('authToken',authToken);
+        localStorage.setItem('userId',authUser.user.id);
         // router.replace(`/${formData}/jobs/${authUser.user.id}`);
 
 

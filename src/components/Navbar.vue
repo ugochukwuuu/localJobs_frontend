@@ -16,6 +16,7 @@
 
       localStorage.removeItem('userRole');
       localStorage.removeItem('authToken');
+      localStorage.removeItem('userId');
     }
 
     const logoutUser = async () =>{
