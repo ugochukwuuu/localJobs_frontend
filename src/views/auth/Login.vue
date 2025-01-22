@@ -80,7 +80,12 @@
         console.log('Error getting user detaisl',error.message)
     }
         localStorage.setItem('userRole',user.role)
-        router.replace(`/${user.role}/jobs/${userId}`);
+
+        console.log(user.role)
+        console.log(userId);
+        router.replace(`/${user.role}/jobs/${userId}`).then(()=>{
+            location.reload();
+        });
     }
 
 

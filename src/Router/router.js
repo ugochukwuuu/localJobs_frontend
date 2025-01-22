@@ -43,7 +43,7 @@ const router = createRouter({
             path: `/freelancer`,
             name: 'freelancer',
             component:  freelancerSkeleton,
-            meta: {requiresAuth: true, isFreelancer: true},
+            meta: { requiresAuth: true, allowedRoles: ['freelancer'] },
             children:[
                 {
                     path: '/jobs/:userId',
@@ -66,11 +66,11 @@ const router = createRouter({
             path: `/recruiter`,
             name: 'recruiter',
             component:  recruiterSkeleton,
-            meta: {requiresAuth: true, isrecruiter: true},
+            meta: { requiresAuth: true, allowedRoles: ['recruiter'] },
             children:[
                 {
-                    path: '/jobs/:userId',
-                    name: 'Job Postings',
+                    path: 'jobs/:userId',
+                    name: 'JobPostings',
                     component: recruiterJobsPostingView
                 },
                 {
@@ -96,26 +96,19 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('authToken'); // Check auth token
-    const userRole = localStorage.getItem('userRole'); // Check user role
+    const userRole = localStorage.getItem('userRole'); // Get user role
   
-    // If the user is not authenticated and tries to access a protected route, redirect to login
+    // Block unauthenticated access to protected routes
     if (to.meta.requiresAuth && !isAuthenticated) {
       return next({ name: 'login' });
     }
   
-    // Redirect to role-specific route only if the user is not already on the target route
-    if (to.meta.requiresAuth) {
-      if (userRole === 'freelancer' && to.name !== 'freelancer') {
-        return next({ name: 'freelancer' });
-      }
-      if (userRole === 'recruiter' && to.name !== 'recruiter') {
-        return next({ name: 'recruiter' });
-      }
+    // Block access if the route doesn't match the user's role
+    if (to.meta.allowedRoles && !to.meta.allowedRoles.includes(userRole)) {
+      return next({ name: userRole }); // Redirect to role-specific home
     }
   
-    // Allow navigation if no conditions are met
-    next();
+    next(); // Allow navigation if no rules are broken
   });
   
-
 export default router

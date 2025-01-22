@@ -2,23 +2,37 @@
     import { RouterLink, useRoute } from 'vue-router';
     import { defineProps } from 'vue';
     import "@/assets/stylings/userRoles.css"
+    import { supabase } from '@/config/supabase';
+    import router from '@/Router/router';
 
     const isActive = (routePath) => {
       const route = useRoute();
       return route.path === routePath;
     }
 
-    // const props = defineProps ({
-    //     isFreelancer:{
-    //         type: Boolean,
-    //         default: true
-    //     },
-    //     isFreelancer:{
-    //         type: Boolean,
-    //         default: true
-    //     }
-    // })
+    const logoutFunc = async () => {
 
+      await logoutUser();
+
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('authToken');
+    }
+
+    const logoutUser = async () =>{
+      console.log('logging you out')
+      let { error } = await supabase.auth.signOut()
+
+      if(error){
+        console.log('Error logging out', error.message)
+      }
+      else{
+        console.log('logged out')
+        router.replace('/auth/login').then(()=>{
+          location.reload();
+        })
+      }
+    }
+  
     const userRole = localStorage.getItem('userRole')
 </script>
 
@@ -74,7 +88,7 @@
                   </RouterLink
                 >
 
-                <button @click="logoutFunct" class = "logout-btn">
+                <button @click="logoutFunc" class = "logout-btn">
                 logout
                 <i class="pi pi-sign-out"></i>
                 </button>
