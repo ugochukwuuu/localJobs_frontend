@@ -5,13 +5,22 @@
     --nav-button-spacing: .6em;
     --nav-button-border-radius: 6px;
 }
-.main-nav-cont{
-    width: 100%;
+.main-nav-cont{ 
     padding: var(--coherent-spacing);
 }
 .nav-links{
     gap: .3em;
 
+}
+.profile-link:hover{
+    display: flex;
+    align-items: center;
+    gap: .3em;
+    padding: var(--nav-button-spacing);
+    border-radius: var(--nav-button-border-radius);
+    background-color: var(--dark-green);
+    color: white;
+    cursor: pointer;
 }
 .router-view{
     padding: 0 var(--coherent-spacing);
@@ -37,4 +46,19 @@
     background-color: green;
     color: white;
     
+}
+.logout-btn{
+    background-color: rgb(237, 98, 98);
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: var(--nav-button-spacing);
+    border-radius: var(--nav-button-border-radius);
+    cursor: pointer;
+}
+.logout-btn:hover{
+    background-color: rgb(255, 0, 0);
+}
+.logout-btn .pi{
+    margin-left: 5px;
 }

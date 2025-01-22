@@ -4,10 +4,9 @@
     import { RouterLink } from 'vue-router';
     import { useToast } from 'vue-toastification';
     import { ref } from 'vue';
-    import axios from 'axios';
-    import apiConfig from '@/config/apiConfig'
-    import router from '@/Router/router';
-    import { jwtDecode } from "jwt-decode";
+    import { supabase } from '@/config/supabase';
+    import router from "@/Router/router";
+    
     const toast = useToast();
 
     const formData = reactive(
@@ -65,33 +64,59 @@
         if(!validate()) return;
 
         console.log(formData)
+        
+        registerUser(formData);
 
-        try{
-            const response = await axios.post(`${apiConfig.baseUrl}${apiConfig.register}`, formData);
-            const  data = response.data;
-            console.log(data)
-            toast.success(data.code)
-
-            console.log(localStorage)
-            
-            if(data.token){
-                const payload = jwtDecode(data.token);
-                localStorage.setItem('authToken',data.token);
-                localStorage.setItem('userRole',payload.user_role);
-
-                const userRole = localStorage.userRole;
-                router.replace(`/${userRole}`);
-            }
-            else{
-                toast.error('authToken not sent by the server')
-            }
-
-        }
-        catch(error){
-            // toast.error(error.response.data.message)
-            console.log(error)
-        }
     }
+
+const registerUser = async () => {
+  console.log('registering...')
+  const { data: authUser, error: authError } = await supabase.auth.signUp({
+    email:formData.email,
+    password:formData.password,
+  });
+
+  if (authError) {
+    toast.error('Registration error:', authError.message);
+    console.error('Registration error:', authError.message);
+    return;
+} else {
+  const authToken = authUser.session?.access_token; 
+  console.log('Auth token:', authToken || 'No token available (email confirmation required)');
+    if(authToken){
+        localStorage.setItem('authToken',authToken);
+    }
+    localStorage.setItem('userRole',formData.role);
+}
+
+
+  // Save the user to a custom table
+  const { error: insertError } = await supabase
+    .from('users')
+    .insert([
+      {
+        id: authUser.user.id, // Use the same ID as `auth.users`
+        email: authUser.user.email, 
+        password: formData.password,
+        name: formData.name,
+        role: formData.role,
+      },
+    ]);
+
+  if (insertError) {
+    toast.error('Error saving user to custom table:', insertError.message);
+    console.error('Error saving user to custom table:', insertError.message);
+  } else {
+    console.log('User data saved to custom table.');
+    toast.success('You have successfully registered');
+
+
+    router.replace(`/${formData.role}/jobs/${authUser.user.id}`);
+  }
+  
+};
+
+
     const passwordVisisble = ref(false);
     const togglePassword = () =>{
         console.log('working')

@@ -5,10 +5,9 @@
     import { RouterLink } from 'vue-router';
     import { createToastInterface, useToast } from 'vue-toastification';
     import { ref } from 'vue';
-    import axios from 'axios';
-    import apiConfig from '@/config/apiConfig';
     import router from '@/Router/router';   
-    import { jwtDecode } from "jwt-decode";
+    import { supabase } from '@/config/supabase';
+
 
 
     const toast = useToast();
@@ -41,36 +40,49 @@
         if(!validate()) return;
 
         console.log(formData)
-        router.replace('freelancer/jobs');
 
-        // try{
-        //     const response = await axios.post(`${apiConfig.baseUrl}${apiConfig.login}`, formData);
-        //     const  data = response.data;
-        //     console.log(localStorage)
-            
-        //     if(data.token){
-        //         const payload = jwtDecode(data.token);
-        //         localStorage.setItem('authToken',data.token);
-        //         localStorage.setItem('userRole',payload.user_role);
-                
-        //         const userRole = localStorage.userRole;
-        //         router.replace(`/${userRole}`);
+        loginUser(formData);    
 
-        //     }
-        //     else{
-        //         toast.error('authToken not sent by the server')
-        //     }
-        //     toast.success(data.message)
 
-        // }
-        // catch(error){
-        //     if (!error.response || !error.response.data || !error.response.data.message) {
-        //     toast.error('An unknown error occurred');
-        //     } else {
-        //     toast.error(error.response.data.message);
-        //     }
-        // }
+        
     }
+
+    const loginUser = async () =>{
+    
+        console.log('loggin in...')
+        let { data:authUser, error:authError     } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password
+        })
+
+        if(authError){
+            console.log('Error loggin in', error.message)
+        }
+
+        const authToken = authUser.session.access_token;
+
+        localStorage.setItem('authToken',authToken);
+        // router.replace(`/${formData}/jobs/${authUser.user.id}`);
+
+
+        await getUserDetails( authUser.user.id)
+    }
+
+    const getUserDetails = async (userId)=>{
+        
+    let { data: user, error } = await supabase
+    .from('users')
+    .select("role")
+    .eq('id', userId)
+    .single()
+
+    if(error){
+        console.log('Error getting user detaisl',error.message)
+    }
+        localStorage.setItem('userRole',user.role)
+        router.replace(`/${user.role}/jobs/${userId}`);
+    }
+
 
     const passwordVisisble = ref(false);
     const togglePassword = () =>{
