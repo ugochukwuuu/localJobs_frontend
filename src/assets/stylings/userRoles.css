@@ -1,16 +1,73 @@
-@import url("src/assets/stylings/base.css");
+/* @import url("src/assets/stylings/base.css"); */
+@import "./base.css";
+
 
 :root{
     --coherent-spacing: 1.5rem;
     --nav-button-spacing: .6em;
     --nav-button-border-radius: 6px;
+    --header-border-radius: 30px;
+}
+.logo{
+    color: var(--light-green);
+    font-weight: 800;
 }
 .main-nav-cont{ 
     padding: var(--coherent-spacing);
 }
+.header-nav{
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--coherent-spacing);
+    flex-direction: column;
+}
+.search-cont{
+    display: flex;
+    gap: .5em;
+
+}
+.search-cont input{
+    padding: var(--nav-button-spacing);
+    border-radius: var(--nav-button-border-radius);
+    border: none;
+}
+.search-bar-cont{
+    background-color: white;
+    border-radius: var(--header-border-radius);
+    padding:0 10px;
+}
+.search-div{
+    padding: 5px;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.search-div input{
+    padding: 1em;
+    width: 100%;
+}
+.search-div input:focus{
+    outline: none;
+}
+.location-bar{
+    border-left: 1px solid black;
+    border-radius: 0;
+}
+.search-btn{
+    background-color: var(--dark-green);
+    color: white;
+    padding: 1em 1.5em;
+    border: none;
+    border-radius: var(--header-border-radius);
+}
+.search-bar-cont .pi{
+    color: var(--dark-green);
+}
 .nav-links{
     gap: .3em;
-
 }
 .profile-link:hover{
     display: flex;
@@ -26,16 +83,22 @@
     padding: 0 var(--coherent-spacing);
 }
 .normal{
-    color: black;
+    color: white;
 }
 .router-link-active{
     padding: var(--nav-button-spacing);
-    color: white;
-    background-color: rgb(91, 186, 91);
+    border-bottom: 3px solid var(--light-green);
+    border-radius: 0;
+    color: var(--light-green);
+    font-weight: 800;
 }
-.normal,.router-link-active{
+.normal{
     padding: var(--nav-button-spacing);
     border-radius: var(--nav-button-border-radius);
+}
+.router-link-active{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .normal:hover{
     background-color: var(--dark-green);
@@ -43,9 +106,10 @@
 }
 
 .normal:hover,.router-link-active:hover{
-    background-color: green;
+    background-color: var(--light-green);
     color: white;
-    
+    font-weight: 800;
+    border-radius: var(--nav-button-border-radius);
 }
 .logout-btn{
     background-color: rgb(237, 98, 98);
@@ -61,4 +125,34 @@
 }
 .logout-btn .pi{
     margin-left: 5px;
+}
+.add-job-button{
+    padding: .6em;
+    border: 5px dotted grey;
+    background-color: rgb(206, 206, 206);
+    border-radius: var(--nav-button-border-radius);
+}
+.add-job-modal{
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    position: relative;
+}
+.modal-content{
+    width: clamp(1rem,90vw,700px);
+    position: absolute; 
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+    background-color: white;
+    padding: 1em;
+    border-radius: var(--nav-button-border-radius);
+}
+.add-job{
+    padding: var(--nav-button-spacing);
+    color: black;
+    font-weight: 700;
+    background-color: var(--light-green);
+    border: none;
 }

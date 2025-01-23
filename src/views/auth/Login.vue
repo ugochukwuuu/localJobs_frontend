@@ -55,7 +55,10 @@ const loginUser = async () => {
   });
 
   if (authError) {
+    toast.error( authError.message);
     console.log("Error loggin in", authError.message);
+  isLoading.value = false;
+
   }
 
   const authToken = authUser.session.access_token;

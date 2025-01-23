@@ -94,3 +94,28 @@ a{
 .justify-content-between{
     justify-content: space-between;
 }
+.cursor{
+    cursor:pointer;
+}
+.montserrat{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+.poppins{
+    font-family: Poppins;
+    font-optical-sizing: auto;
+    font-weight: 300;   
+    font-style: normal;
+}
+.raleway{
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    line-height: 24px;
+    letter-spacing: -0.015em;
+}
+.roboto-mono{
+    font-family: "Roboto Mono", serif;
+    font-optical-sizing: auto;
+  }
