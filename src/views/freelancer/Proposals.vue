@@ -18,5 +18,5 @@
     <div v-if = 'isLoading'>
         <PulseLoader/>
     </div>
-    <h1>{{content}}</h1>
+    <h1>nice</h1>
 </template>

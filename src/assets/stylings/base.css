@@ -12,6 +12,13 @@ import 'primeicons/primeicons.css'
     padding:0;
     box-sizing: border-box;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(black);
+}
 :root{
     --dark-green: #026433;
     --light-green: #90ee90;

@@ -12,6 +12,7 @@
       return route.path === routePath;
     }
 
+    const userId = localStorage.getItem('userId');
     const logoutLoading = ref(false);
     const logoutFunc = async () => {
 
@@ -53,38 +54,41 @@
               <div class="nav-links d-flex">
 
                 <RouterLink 
-                  to="/freelancer/jobs"
+                  :to="`/freelancer/jobs/${userId}`"
                   v-if="userRole == 'freelancer'"
                   :class="[isActive('/freelancer/jobs')?'active':'normal']"
                   >Jobs</RouterLink>
 
                 <RouterLink 
-                  to="/recruiter/jobs"
-                  v-if="userRole == 'recruiter'"
+                :to="`/recruiter/jobs/${userId}`"
+                v-if="userRole == 'recruiter'"
                   :class="[isActive('/recruiter/jobs')?'active':'normal']"
                   >Jobs</RouterLink>
 
                 <RouterLink
-                  to="/freelancer/proposals"
+                :to="`/freelancer/proposals/${userId}`"
                   v-if="userRole == 'freelancer'"
                   :class="[isActive('/freelancer/proposals')?'active':'normal']"
                   >Proposals</RouterLink
                 >
                 <RouterLink
-                  to="/recruiter/applicants"
+                  :to="`/recruiter/applications/${userId}`"
                   v-if="userRole == 'recruiter'"
-                  :class="[isActive('/recruiter/applicants')?'active':'normal']"
-                  >Applicants</RouterLink
+                  :class="[isActive('/recruiter/applications')?'active':'normal']"
+                  >Applications</RouterLink
                 >
 
                 <RouterLink
-                  to="/freelancer/profile"
+                  :to="`/freelancer/profile/${userId}`"
                   v-if="userRole == 'freelancer'"
+                  class = "profile-link"
                   :class="[isActive('/freelancer/profile')?'active':'normal']"
-                  >Profile</RouterLink
+                  >
+                  <i class="pi pi-user"></i>
+                  </RouterLink
                 >
                 <RouterLink
-                  to="/recruiter/profile"
+                  :to="`/recruiter/profile/${userId}`"
                   v-if="userRole == 'recruiter'"
                   class = "profile-link"
                   :class="[isActive('/recruiter/profile')?'active':'normal']"

@@ -112,11 +112,9 @@ a,p,button{
 .ef-input input,.create,.tech-companies-wrapper button{
     padding: var(--pa) ;
 }
-.ef-row2{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1.65em;
-}
+
+
+
 .ef-row2 input{
     accent-color: var(--dark-green);
 }
