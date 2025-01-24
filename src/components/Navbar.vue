@@ -7,10 +7,11 @@ import router from "@/Router/router";
 import { ref } from "vue";
 import { createToastInterface, useToast } from "vue-toastification";
 
+
 const toast = useToast();
 
+const route = useRoute();
 const isActive = (routePath) => {
-  const route = useRoute();
   return route.path === routePath;
 };
 
@@ -107,7 +108,7 @@ const userRole = localStorage.getItem("userRole");
       </div>
     </div>
 
-    <div v-if="userRole == 'freelancer'" class="search-cont d-flex flex-column">
+    <div v-if="isActive('/freelancer/jobs')" class="search-cont d-flex flex-column">
       <h1>Find your jobs easily</h1>
       <div class="search-bar-cont d-flex align-items-center">
         <div class="title-bar search-div">

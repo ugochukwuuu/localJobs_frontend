@@ -4,6 +4,8 @@ import axios from "axios";
 const store = createStore({
     state:{
         counter:0,
+        showAddJob: false,
+        userId: '',
         allUsers:[]
     },
     mutations:{
@@ -18,6 +20,13 @@ const store = createStore({
         },
         setUsers(state,users){
             state.allUsers = [...state.allUsers, users];
+        },
+        setShowAddJob(state){
+            state.showAddJob = !state.showAddJob;
+        },
+        setUserId(state,id){
+            state.userId = id;
+            console.log(state.userId)
         }
     },
     actions:{

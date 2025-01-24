@@ -6,7 +6,8 @@
     import { ref } from 'vue';
     import { supabase } from '@/config/supabase';
     import router from "@/Router/router";
-    
+
+
     const toast = useToast();
 
     const formData = reactive(
@@ -95,7 +96,7 @@ const registerUser = async () => {
     .from('users')
     .insert([
       {
-        id: authUser.user.id, // Use the same ID as `auth.users`
+        id: authUser.user.id, 
         email: authUser.user.email, 
         password: formData.password,
         name: formData.name,
@@ -109,7 +110,6 @@ const registerUser = async () => {
   } else {
     console.log('User data saved to custom table.');
     toast.success('You have successfully registered');
-
 
     router.replace(`/${formData.role}/jobs/${authUser.user.id}`);
   }
@@ -174,12 +174,12 @@ const registerUser = async () => {
                     </div>
                     <div class="ef-input">
                     <input v-model="formData.email" type="email" placeholder="Email">
-                    <div class="password-div original-div">
+                    <div class="password-div original-div d-flex align-items-center">
                         <input v-model="formData.password" :type = "passwordVisisble? 'text': 
                         'password' " placeholder="Password" ref = "password" >
                         <i :class="['eye-toggle', passwordVisisble?  'pi pi-eye': 'pi pi-eye-slash']" @click="togglePassword"></i>
                     </div>
-                    <div class="password-div">
+                    <div class="password-div d-flex align-items-center">
                         <input :type = "passwordVisisble? 'text': 'password' "
                          placeholder="Repeat Password" ref="confirmPassword">
                     </div>

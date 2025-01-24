@@ -133,11 +133,16 @@
     border-radius: var(--nav-button-border-radius);
 }
 .add-job-modal{
-    display: grid;
-    place-items: center;
-    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
-    position: relative;
+    height: 100vh;   
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 .modal-content{
     width: clamp(1rem,90vw,700px);
@@ -148,6 +153,24 @@
     background-color: white;
     padding: 1em;
     border-radius: var(--nav-button-border-radius);
+
+    height: 90vh;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+
+}
+.modal-content::-webkit-scrollbar
+{
+ display: none;
+}
+.modal-content .row input,.modal-content .row select{
+    padding: .5em;
+    width:100%;
+    box-sizing: border-box;
+}
+.modal-content .row h3{
+    width: 100%;
 }
 .add-job{
     padding: var(--nav-button-spacing);
@@ -155,4 +178,32 @@
     font-weight: 700;
     background-color: var(--light-green);
     border: none;
+}
+.cancel{
+    margin-top: 8em;
+}
+.cancel .pi{
+        background-color: var(--light-red);
+        padding:.4em;
+        border-radius: 50%;
+        margin-left: auto;
+    }
+.cancel .pi:hover{
+        background-color: var(--dark-red);
+    }
+.modal-content .row{
+    display: flex;
+    flex-direction: column;
+}
+.modal-content .row:last-of-type{
+    margin-bottom: 2em;
+}   
+.add-job{
+    background-color: var(--dark-green);
+    color: var(--lightest-green);
+    border: none;
+}
+.add-job:hover{
+    border: 3px solid var(--dark-green);
+    padding: 10px;
 }

@@ -9,6 +9,7 @@ import router from "@/Router/router";
 import { supabase } from "@/config/supabase";
 import load1 from "@/components/loader/load1.vue";
 
+
 const isLoading = ref(false);
 const toast = useToast();
 const formData = reactive({
@@ -87,6 +88,7 @@ const getUserDetails = async (userId) => {
 
   isLoading.value = false;
 
+
   router.replace(`/${user.role}/jobs/${userId}`).then(() => {
     location.reload();
   });
@@ -117,7 +119,7 @@ const togglePassword = () => {
                 type="email"
                 placeholder="godzilladagoat@email.com"
               />
-              <div class="password-div original-div">
+              <div class="password-div original-div d-flex align-items-center">
                 <input
                   v-model="formData.password"
                   :type="passwordVisisble ? 'text' : 'password'"

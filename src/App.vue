@@ -2,9 +2,14 @@
 import { RouterView } from "vue-router";
 import { onMounted } from "vue";
 import { supabase } from "./config/supabase";
+import store from '@/store/store'
 
 onMounted(() => {
   // getUsers();
+  // console.log('userId:',store.state.userId)
+  store.commit('setUserId',localStorage.getItem('userId'));
+
+
 });
 
 const getUsers = async () => {
