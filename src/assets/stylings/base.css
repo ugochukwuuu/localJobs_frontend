@@ -18,7 +18,7 @@ p{
 }
 html, body {
   margin: 0;
-  padding: 0;
+  padding: 0;   
 }
 input{
     box-sizing: border-box;
@@ -40,7 +40,19 @@ input{
     --light-red: rgb(237, 98, 98);
     --gold: #ffd700;           
 
+    --action-add-bg: var(--lightest-green);     /* #dffdd3 */
+    --action-edit-bg: var(--egg-white);         /* #d2d2d2 */
+    --action-delete-bg: #f8d7da;               /* Soft pink-red */
     
+    /* Action Text */
+    --action-add-text: var(--dark-green);       /* #026433 */
+    --action-edit-text: #4a5568;               /* Muted slate */
+    --action-delete-text: #822027;             /* Muted burgundy */
+    
+    /* Hover States */
+    --action-add-hover: #c8f0b8;
+    --action-edit-hover: #e5e5e5;
+    --action-delete-hover: #f5c2c7;
 
     --pa:.9em;
     --br-a:3px;
