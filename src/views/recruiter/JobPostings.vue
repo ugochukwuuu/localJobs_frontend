@@ -3,12 +3,14 @@ import { onMounted, reactive } from "vue";
 import { supabase } from "@/config/supabase";
 import { ref } from "vue";
 
+import JobCard from "@/components/JobCard.vue";
+
 import AddJobModal from "@/components/AddJobModal.vue";
 import "@/assets/stylings/userRoles.css"
 import store from "@/store/store";
-
 const postedJobs = ref([]);
 const userId = localStorage.getItem("userId");
+
 const jobsDataLoading = ref(true);
 
 
@@ -35,19 +37,24 @@ onMounted(() => {
 });
 </script>
 <template>  
-    <div class="main">
+<div class="main">
     <div v-if="jobsDataLoading" class="loader d-flex align-items-center justify-content-center">
         <i class="pi pi-spin pi-spinner"></i>
     </div>
-  <div v-if="!jobsDataLoading" class="job-postings raleway"> 
+  <div v-if="!jobsDataLoading" class="job-postings raleway">
     <h1 class="raleway">Job Postings</h1>
     <p>You have posted {{ postedJobs.length }} jobs.</p>
 
-    <div @click="addJobFunc" class="add-job-button d-flex align-items-center justify-content-center flex-column cursor">
+
+    <div class = "card-container">
+        <JobCard v-for="job in postedJobs" :ket="job.id" :job = "job"/>
+    </div>
+
+    <div @click="addJobFunc" class="add-job-button align-items-center  flex-column cursor">
     <i class="pi pi-plus"></i>
     <p>Add a job</p>
     </div>
-
+    
     <AddJobModal v-if="store.state.showAddJob"/>
   </div>
 </div>

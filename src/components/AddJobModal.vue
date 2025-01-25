@@ -1,8 +1,19 @@
 <script setup>
+
+document.body.classList.add('modal-open');
+
+document.body.classList.remove('modal-open');
+
+
 import { reactive } from 'vue';
 import store from "@/store/store";
 import {supabase} from "@/config/supabase";
+import { createToastInterface, useToast } from "vue-toastification";
+import load1 from "@/components/loader/load1.vue";
+import {ref} from 'vue';
+const isLoading = ref(false);
 
+const toast = useToast();
 
 const jobData = reactive({
   title: "",
@@ -16,31 +27,65 @@ const jobData = reactive({
 const toggleJobModal = () => {
     store.commit("setShowAddJob", true);
 };
+const validate = () => {
+  if (jobData.title.length == 0) {
+    toast.warning("put in a valid title");
+    return false;
+  }
+  if (jobData.description.length == 0) {
+    toast.warning("put in a descripition");
+    return false;
+  }
+  if (jobData.salary.length == 0) {
+    toast.warning("put in a salary");
+    return false;
+  }
+  if (jobData.category.length == 0) {
+    toast.warning("put in a category");
+    return false;
+  }
+  if (jobData.location.length == 0) {
+    toast.warning("put in a location");
+    return false;
+  }
+  if (jobData.extraLocationDetails.length == 0) {
+    toast.warning("put in additional information about the location");
+    return false;
+  }
+  return true;
+};
 const handleJobPosting = (e) => {
     e.preventDefault();
+    if (!validate()) return;
     postJob(jobData);
     console.log(jobData);
-    // toggleJobModal();
+
 }
 const postJob = async (jobData) =>{
+  isLoading.value = true;
+  store.commit("setJobPostingLoading", true);
     const { data, error } = await supabase
     .from('jobs')
     .insert([
-        { title: jobData.title },
-        { description: jobData.description },
-        { salary: jobData.salary },
-        { location: jobData.location },
-        { extraLocationDetails: jobData.extraLocationDetails },
-        { category: jobData.category },
-        { recruiter_id: store.state.userId },
-        { status: 'open' }
+        { title: jobData.title,
+         description: jobData.description,
+         salary: jobData.salary,
+         location: jobData.location,
+         extra_location_details: jobData.extraLocationDetails,
+         category: jobData.category,
+         recruiter_id: store.state.userId,
+         status: 'open' }
     ])
     .select()
 
     if (error) {
         console.log('Error posting job:', error.message);
+        toast.error('Error posting job:', error.message);
+        store.commit("setJobPostingLoading", false);
     } else {
         console.log('Job posted:', data);
+        location.reload();
+        store.commit("setJobPostingLoading", false);
     }  
 }
 
@@ -48,7 +93,8 @@ const postJob = async (jobData) =>{
 
 <template>
     <div class="add-job-modal d-flex">
-    <form @submit = "handleJobPosting" class="modal-content d-flex flex-column justify-content-center">
+        <form @submit = "handleJobPosting" class="modal-content d-flex flex-column justify-content-center">
+            <load1 v-if="store.state.jobPostingLoading" />
         <div class="cancel d-flex align-items-center cursor">
             <i class="pi pi-asterisk" @click = "toggleJobModal"></i>
         </div>
@@ -64,7 +110,7 @@ const postJob = async (jobData) =>{
 
         <div class="row d-flex align-items-left justify-content-center">
         <h3>Job Salary</h3>
-        <input v-model="jobData.salary" type="text" placeholder="Job Salary" />
+        <input v-model="jobData.salary" type="number" placeholder="Job Salary" />
         </div>
 
         <div class="row d-flex align-items-left justify-content-center">

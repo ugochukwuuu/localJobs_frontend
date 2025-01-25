@@ -5,6 +5,7 @@ const store = createStore({
     state:{
         counter:0,
         showAddJob: false,
+        jobPostingLoading:false,
         userId: '',
         allUsers:[]
     },
@@ -27,6 +28,9 @@ const store = createStore({
         setUserId(state,id){
             state.userId = id;
             console.log(state.userId)
+        },
+        setJobPostingLoading(state,value){
+            state.jobPostingLoading = value;
         }
     },
     actions:{

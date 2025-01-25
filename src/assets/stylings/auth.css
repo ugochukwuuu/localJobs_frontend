@@ -68,6 +68,7 @@ a,p,button{
     gap: 7px;
 }
 .role-selection-options .role{
+    color: black;
     flex-basis: 50%;
 }
 .role-selection-options .selected{
