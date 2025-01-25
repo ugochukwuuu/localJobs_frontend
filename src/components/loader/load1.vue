@@ -16,6 +16,7 @@
   top: 0;
   left: 0;
   justify-content: center;
-  background: #00000070;
+  /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
+  z-index: 999999;
 }
 </style>

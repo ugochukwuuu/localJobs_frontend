@@ -85,7 +85,9 @@ const postJob = async (jobData) =>{
     } else {
         console.log('Job posted:', data);
         location.reload();
-        store.commit("setJobPostingLoading", false);
+        setTimeout(() => {
+            store.commit("setShowAddJob", false);
+        }, 1500);
     }  
 }
 

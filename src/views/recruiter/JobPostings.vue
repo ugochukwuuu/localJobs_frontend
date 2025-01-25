@@ -43,22 +43,12 @@ onMounted(() => {
     </div>
 
   <div v-if="!jobsDataLoading" class="job-postings raleway">
-    <div class="job-action-buttons">
         <div @click="addJobFunc" class="job-action-button add-job-btn align-items-center  flex-row cursor ">
         <i class="pi pi-plus"></i>
-        <p>Add a job</p>
+        Add job
         </div>
-        <div @click="" class="job-action-button edit-job-btn  align-items-center  flex-row cursor">
-        <i class="pi pi-pencil"></i>
-        <p>Edit Job</p>
-        </div>
-        <div @click="" class="job-action-button delete-job-btn align-items-center  flex-row cursor">
-        <i class="pi pi-trash"></i>
-        <p>Delete Job</p>
-        </div>
-    </div>
     <h1 class="raleway">Job Postings</h1>
-    <p>You have posted {{ postedJobs.length }} jobs.</p>
+    <p>You have posted {{ postedJobs.length }} job(s).</p>
 
 
     <div class = "card-container">
