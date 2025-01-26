@@ -1,9 +1,5 @@
 <script setup>
 
-document.body.classList.add('modal-open');
-
-document.body.classList.remove('modal-open');
-
 
 import { reactive } from 'vue';
 import store from "@/store/store";
@@ -12,9 +8,31 @@ import { createToastInterface, useToast } from "vue-toastification";
 import load1 from "@/components/loader/load1.vue";
 import {ref} from 'vue';
 const isLoading = ref(false);
+import {defineProps} from 'vue';
 
 const toast = useToast();
 
+//get passable props that wnhen loaded yuo'll pass into jobData and fill the form
+
+
+
+const props = defineProps({
+    job:{
+        type: Object,
+        default: {
+            title: "",
+            description: "",
+            salary: "",
+            location: "",
+            extraLocationDetails: "",
+            category: "",
+        }
+    },
+    name:{
+        type: String,
+        default: "default"
+    }
+})
 const jobData = reactive({
   title: "",
   description: "",
@@ -24,9 +42,7 @@ const jobData = reactive({
   category: "",
 });
 
-const toggleJobModal = () => {
-    store.commit("setShowAddJob", true);
-};
+
 const validate = () => {
   if (jobData.title.length == 0) {
     toast.warning("put in a valid title");
@@ -61,6 +77,33 @@ const handleJobPosting = (e) => {
     console.log(jobData);
 
 }
+
+const handleJobEditing = (e) => {
+    e.preventDefault();
+    
+    console.log(props.name)
+    console.log(store.state.editingJob.id);
+}
+
+const handleFormSubmit = (e) =>{
+    e.preventDefault();
+
+    if(store.state.jobAction == 'add'){
+        handleJobPosting(e);
+    }
+    else{
+        handleJobEditing(e);
+    }
+}
+const handleModalDisplay = ()=>{
+    if(store.state.jobAction == 'add'){
+        store.commit("setShowAddJob", false);
+    }
+    else{
+        store.commit("setShowEditJob", false);
+    }
+}
+
 const postJob = async (jobData) =>{
   isLoading.value = true;
   store.commit("setJobPostingLoading", true);
@@ -95,14 +138,14 @@ const postJob = async (jobData) =>{
 
 <template>
     <div class="add-job-modal d-flex">
-        <form @submit = "handleJobPosting" class="modal-content d-flex flex-column justify-content-center">
+        <form  @submit="handleFormSubmit" class="modal-content d-flex flex-column justify-content-center">
             <load1 v-if="store.state.jobPostingLoading" />
         <div class="cancel d-flex align-items-center cursor">
-            <i class="pi pi-asterisk" @click = "toggleJobModal"></i>
+            <i class="pi pi-asterisk" @click = "handleModalDisplay"></i>
         </div>
         <div class="row d-flex align-items-left justify-content-center">
         <h3>Job Title</h3>
-        <input v-model="jobData.title" type="text" placeholder="Job Title" />
+        <input v-model="jobData.title" value = {store.state.editingJob.id} type="text" placeholder="Job Title" />
         </div>
 
         <div class="row d-flex align-items-left justify-content-center">
@@ -147,7 +190,9 @@ const postJob = async (jobData) =>{
             <h3>Job Status</h3>
             <input type = 'text' placeholder = 'open' disabled/>
         </div>
-    <button class="add-job cursor">Post Job</button>
+    <button class="add-job cursor">
+    {{store.state.jobAction == 'add' ? 'Add Job' : 'Edit Job'}}    
+    </button>
     </form>
 </div>
 </template>

@@ -7,17 +7,21 @@
     import {onMounted,ref} from 'vue';
     import AddJobModal from '@/components/AddJobModal.vue'
     import loadAnim from '@/components/loadAnim1.vue';
+    import store from '@/store/store';
 
+    const name = ref("promise")
 
     const isDeleting = ref(false);
     const toast = useToast();
     
     const props = defineProps({
-        job: Object
+        job: Object,
     })
 
+    const jobUpdate = ref(null)
+
     const createdAt = ref('');
-    
+
     function getTimeSinceCreation() {
 
         const createdDate = new Date(props.job.created_at);
@@ -38,25 +42,15 @@
         return parts.length > 0 ? parts.join(', ') : 'Just now';
     }
 
-    const editJobFunc = (d) => {
-        console.log(d)
-        if(confirm(`Are you sure you want to edit ${job.title}?`)){
+    const editJobFunc = (job) => {
+        // console.log(job)     
+        store.commit('setJobAction',"edit");
+        store.commit('setShowEditJob',true);
 
-        if(error){
-            toast.error('Error editing Job',error)
-        }
-        else{
-            console.log(data)
-            toast.success('Job deleted successfully')
-            location.reload();
-
-            isDeleting.value = false;
-        }
+        store.commit('setEditingJob',job)
+        console.log(store.state.editingJob)
     }
 
-
-    console.log(d)
-}
     const deleteJobFunc = async (job) => {
         if(confirm(`Are you sure you want to delete ${job.title}?`)){
 
@@ -79,7 +73,7 @@
         }
 
 
-        console.log(d)
+        console.log(job)
     }
 
 
@@ -129,5 +123,11 @@ onMounted(()=>{
         <p>Delete Job</p>
         </div>
     </div>
+
+    <AddJobModal 
+    v-if="store.state.showAddJob || store.state.showEditJob"
+    :job = store.state.editingJob
+    :name="name.value"
+     />
     </div>
 </template>

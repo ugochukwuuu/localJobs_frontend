@@ -4,10 +4,15 @@ import axios from "axios";
 const store = createStore({
     state:{
         counter:0,
+        jobAction: 'add',
         showAddJob: false,
+        showEditJob: false,
         jobPostingLoading:false,
         userId: '',
-        allUsers:[]
+        allUsers:[],
+        editingJob: null,
+        showJobModal:false
+
     },
     mutations:{
         increaseCounter(state){
@@ -25,14 +30,23 @@ const store = createStore({
         setShowAddJob(state){
             state.showAddJob = !state.showAddJob;
         },
+        setShowEditJob(state){
+            state.showAddJob = !state.showAddJob;
+        },
         setUserId(state,id){
             state.userId = id;
             console.log(state.userId)
         },
         setJobPostingLoading(state,value){
             state.jobPostingLoading = value;
-        }
+        },
+        setJobAction(state,action){
+            state.jobAction = action;
+        },
+        setEditingJob(state,job){
+            state.editingJob = job;
     },
+},
     actions:{
         async delay({commit},value){
             setTimeout(() => {

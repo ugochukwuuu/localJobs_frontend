@@ -1,9 +1,21 @@
 <script setup>
     import Job from '@/components/Job.vue';
     import { onMounted } from 'vue';
+    import {supabase} from '@/config/supabase';
 
+    const getAllJobs = async () =>{
 
-    
+        let {data:jobs,error} = await supabase
+        .from('jobs')
+        .select('*')
+
+        if(error){
+            toast.error("Error getting all jobs",error)
+        }
+        else{
+            console.log("jobs")
+        }
+    }
     onMounted(()=>{
       console.log('jobs')
     })

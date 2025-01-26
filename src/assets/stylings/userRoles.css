@@ -211,7 +211,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* z-index: 1000; */
+  z-index: 1000;
   backdrop-filter: blur(3px);
   animation: fadeIn 0.3s ease;
 
@@ -430,11 +430,7 @@ input[disabled] {
   background: white;
   font-family: 'Raleway', sans-serif;
 }
-.job-card:hover {
-  transform: translateY(-2px);
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+
 .job-title {
     font-weight: 700; 
     font-size: 1.5rem;
@@ -506,4 +502,31 @@ input[disabled] {
     gap: 1em;
     padding-top: 10px;
     border-top: 1px solid var(--grey);
+}
+
+@media (max-width: 480px) {
+  .job-card {
+    padding: 1rem;
+  }
+
+  .job-title {
+    font-size: 1.25rem;
+  }
+
+  .job-description {
+    font-size: 0.875rem;
+  }
+
+  .salary {
+    font-size: 1rem;
+  }
+
+  .time-posted {
+    font-size: 0.75rem;
+  }
+
+  .location {
+    font-size: 0.875rem;
+  }
+    
 }

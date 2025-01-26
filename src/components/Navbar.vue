@@ -60,14 +60,14 @@ const userRole = localStorage.getItem("userRole");
           :to="`/freelancer/jobs/${userId}`"
           v-if="userRole == 'freelancer'"
           :class="[isActive('/freelancer/jobs') ? 'active' : 'normal']"
-          >Jobs</RouterLink
+          >Find Jobs</RouterLink
         >
 
         <RouterLink
           :to="`/recruiter/jobs/${userId}`"
           v-if="userRole == 'recruiter'"
           :class="[isActive('/recruiter/jobs') ? 'active' : 'normal']"
-          >Jobs</RouterLink
+          >Manage Jobs</RouterLink
         >
 
         <RouterLink

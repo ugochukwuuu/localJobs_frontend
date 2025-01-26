@@ -3,13 +3,11 @@ import { RouterView } from "vue-router";
 import { onMounted } from "vue";
 import { supabase } from "./config/supabase";
 import store from '@/store/store'
+import { useSmoothScroll } from './lib/smoothScroll';
 
+const { isScrolling } = useSmoothScroll();
 onMounted(() => {
-  // getUsers();
-  // console.log('userId:',store.state.userId)
   store.commit('setUserId',localStorage.getItem('userId'));
-
-
 });
 
 const getUsers = async () => {
@@ -30,6 +28,9 @@ const getUsers = async () => {
 };
 </script>
 
+
 <template>
+   <!-- <div v-if="isScrolling" class="scrolling-indicator">
+  </div> -->
   <RouterView />
 </template>
