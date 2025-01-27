@@ -1,0 +1,1 @@
+import{c as r,h as e,j as a,F as s,o as t,m as c,p as n}from"./index-DYXB-I9k.js";const i={__name:"FreeLancerSkeleton",setup(o){return(l,u)=>(t(),r(s,null,[e(c,{isFreelancer:!0,isRecruiter:!1}),e(a(n),{class:"router-view"})],64))}};export{i as default};

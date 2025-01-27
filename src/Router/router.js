@@ -14,7 +14,7 @@ import recruiterJobsPostingView from '@/views/recruiter/JobPostings.vue'
 import recruiterApplicationView from '@/views/recruiter/Proposals.vue'
 import recruiterProfileView from '@/views/freelancer/Profile.vue'
 
-// const userRole = localStorage.getItem('userRole');
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes:[
