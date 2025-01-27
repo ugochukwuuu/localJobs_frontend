@@ -133,16 +133,21 @@ onMounted(()=>{
     <div class="job-card d-flex flex-column">
         <loadAnim v-if= "isDeleting"/>
         <loadAnim v-if= "isApplying"/>
+        <div class="recruiter-details d-flex flex-row">
+            <p class = "job-description">{{job.recruiter.name}}</p>  
+            <p class = "job-description">{{job.recruiter.email}}</p>  
+        </div>
+
             <div class="c-row">
                 <h1 class = "job-title">{{job.title}}</h1>  
                 <p class = "job-description">{{job.description}}</p>  
             </div>
-        
         <div class = "location-container d-flex flex-column ">
             <span class = "location tag">
                 <i class="pi pi-map-marker"></i>
-                {{job.location}}</span>
-            <h1 class = "location-details">{{job.extra_location_details}}</h1>  
+                {{job.location}}
+                <p class = "location-details">{{job.extra_location_details}}</p>       
+                </span>
         </div>
         <div class = "tags d-flex ">
             <span class= "category tag">{{job.category}}</span>

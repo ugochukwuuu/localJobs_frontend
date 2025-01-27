@@ -5,7 +5,9 @@
     import "@/assets/stylings/userRoles.css";
     import load1 from "@/components/loader/load1.vue";
     import JobCard from '@/components/JobCard.vue';  
+    import { useToast } from 'vue-toastification';
 
+    const toast = useToast();
     const isSearching = ref(false)
     const jobs = ref([])
 
@@ -19,10 +21,14 @@
         
         let {data,error} = await supabase
         .from('jobs')
-        .select('*')
+        .select(`*,
+          recruiter:users(id,name,email)
+        `)
+
         
         if(error){
           toast.error("Error getting jobs",error)
+          console.error(error)
         }
         else{
           console.log(data)
