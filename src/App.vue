@@ -3,16 +3,15 @@ import { RouterView } from "vue-router";
 import { onMounted } from "vue";
 import { supabase } from "./config/supabase";
 import store from '@/store/store'
-import { useSmoothScroll } from './lib/smoothScroll';
+// import { useSmoothScroll } from './lib/smoothScroll';
 
-const { isScrolling } = useSmoothScroll();
+// const { isScrolling } = useSmoothScroll();
 onMounted(() => {
   store.commit('setUserId',localStorage.getItem('userId'));
 });
 
 const getUsers = async () => {
-  // console.log(import.meta.env.VITE_SUPABASE_URL)
-  // console.log(import.meta.env.VITE_SUPABASE_ANON_KEY)
+ 
 
   let { data: user, error } = await supabase
     .from("users")
@@ -30,7 +29,5 @@ const getUsers = async () => {
 
 
 <template>
-   <!-- <div v-if="isScrolling" class="scrolling-indicator">
-  </div> -->
   <RouterView />
 </template>

@@ -16,7 +16,9 @@
   top: 0;
   left: 0;
   justify-content: center;
-  /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease;
   z-index: 999999;
 }
 </style>

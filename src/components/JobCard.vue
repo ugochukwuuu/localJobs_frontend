@@ -11,11 +11,15 @@
 
     const name = ref("promise")
 
+    const userId = store.state.userId;
+
     const isDeleting = ref(false);
+    const isApplying = ref(false)
     const toast = useToast();
     
     const props = defineProps({
         job: Object,
+        userRole: {type: String, default: 'recruiter'},
     })
 
     const jobUpdate = ref(null)
@@ -76,6 +80,48 @@
         console.log(job)
     }
 
+    const handleApplication = async(job,userId)=>{
+        checkUser(job,userId);
+    }
+
+    const checkUser = async (job,userId) =>{
+  
+        let {data:applications,error} = await supabase
+        .from('applications')
+        .select('*')
+        .eq("job_id", job.id)
+        .eq("applicant_id", userId)
+        .single()
+
+        if (error){            
+            applyJobFunc(job,userId)
+        }
+        else{
+            toast.error("you've already applied to this job")
+        }
+    }
+
+    const applyJobFunc = async (job,userId)=>{
+        isApplying.value = true;
+        let {data,error} = await supabase
+        .from('applications')
+        .insert([{
+            "job_id": job.id,
+            "applicant_id": userId,
+            "status": "pending"
+        }])
+        .single()
+
+        if(error){
+            toast.error("There was an error applying for job", error)
+
+        }
+        else{
+            toast.success("You have successfully applied for job")
+            isApplying.value = false;
+
+        }
+    }
 
 onMounted(()=>{
     getTimeSinceCreation();
@@ -85,6 +131,7 @@ onMounted(()=>{
 <template>
     <div class="job-card d-flex flex-column">
         <loadAnim v-if= "isDeleting"/>
+        <loadAnim v-if= "isApplying"/>
             <div class="c-row">
                 <h1 class = "job-title">{{job.title}}</h1>  
                 <p class = "job-description">{{job.description}}</p>  
@@ -114,14 +161,18 @@ onMounted(()=>{
           
         </div>
         <div class="job-action-buttons">
-        <div @click="editJobFunc(job)" class="job-action-button edit-job-btn align-items-center flex-row cursor">
-        <i class="pi pi-pencil"></i>
-        <p>Edit Job</p>
-        </div>
-        <div @click="deleteJobFunc(job)" class="job-action-button delete-job-btn align-items-center  flex-row cursor">
-        <i class="pi pi-trash"></i>
-        <p>Delete Job</p>
-        </div>
+            <div v-if="userRole == 'recruiter'"  @click="editJobFunc(job)" class="job-action-button edit-job-btn align-items-center flex-row cursor">
+                <i class="pi pi-pencil"></i>
+                <p>Edit Job</p>
+            </div>
+            <div v-if="userRole == 'recruiter'" @click="deleteJobFunc(job)" class="job-action-button delete-job-btn align-items-center  flex-row cursor">
+                <i class="pi pi-trash"></i>
+                <p>Delete Job</p>
+            </div>
+            <div v-if="userRole == 'freelancer'" @click="handleApplication(job,userId)" class="job-action-button apply-job-btn align-items-center  flex-row cursor">
+                <i class="pi pi-briefcase"></i>
+                <p>Apply for Job</p>
+            </div>
     </div>
 
     <AddJobModal 

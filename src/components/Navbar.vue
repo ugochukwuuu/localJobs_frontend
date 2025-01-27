@@ -59,6 +59,7 @@ const userRole = localStorage.getItem("userRole");
         <RouterLink
           :to="`/freelancer/jobs/${userId}`"
           v-if="userRole == 'freelancer'"
+          class="nav-link"
           :class="[isActive('/freelancer/jobs') ? 'active' : 'normal']"
           >Find Jobs</RouterLink
         >
@@ -66,6 +67,7 @@ const userRole = localStorage.getItem("userRole");
         <RouterLink
           :to="`/recruiter/jobs/${userId}`"
           v-if="userRole == 'recruiter'"
+          class="nav-link"
           :class="[isActive('/recruiter/jobs') ? 'active' : 'normal']"
           >Manage Jobs</RouterLink
         >
@@ -73,12 +75,14 @@ const userRole = localStorage.getItem("userRole");
         <RouterLink
           :to="`/freelancer/proposals/${userId}`"
           v-if="userRole == 'freelancer'"
+          class="nav-link"
           :class="[isActive('/freelancer/proposals') ? 'active' : 'normal']"
           >Proposals</RouterLink
         >
         <RouterLink
           :to="`/recruiter/applications/${userId}`"
           v-if="userRole == 'recruiter'"
+          class="nav-link"
           :class="[isActive('/recruiter/applications') ? 'active' : 'normal']"
           >Applications</RouterLink
         >
@@ -109,26 +113,7 @@ const userRole = localStorage.getItem("userRole");
       </div>
     </div>
 
-    <div v-if="isActive('/freelancer/jobs')" class="search-cont d-flex flex-column">
-      <h1>Find your jobs easily</h1>
-      <div class="search-bar-cont d-flex align-items-center">
-        <div class="title-bar search-div">
-          <i class="pi pi-search"></i>
-          <input
-            type="search"
-            name=""
-            id=""
-            class="search-bar"
-            placeholder="Job title or keyword"
-          />
-        </div>
-        <div class="location-bar search-div">
-          <i class="pi pi-map-marker"></i>
-          <input type="search" name="" id="" class="search-bar" placeholder="Location" />
-        </div>
-        <button class="search-btn cursor">Search</button>
-      </div>
-    </div>
+
   </nav>
 </template>
 

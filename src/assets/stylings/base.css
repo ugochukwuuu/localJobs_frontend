@@ -20,6 +20,9 @@ html, body {
   margin: 0;
   padding: 0;   
 }
+main{
+    
+}
 html{
     scroll-behavior: smooth;
 }
@@ -56,6 +59,7 @@ input{
     --action-add-hover: #c8f0b8;
     --action-edit-hover: #e5e5e5;
     --action-delete-hover: #f5c2c7;
+    --action-apply-hover: var(--gold);               /* Soft pink-red */
 
     --pa:.9em;
     --br-a:3px;
