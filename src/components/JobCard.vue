@@ -119,6 +119,7 @@
         else{
             toast.success("You have successfully applied for job")
             isApplying.value = false;
+            console.log(data)
 
         }
     }
