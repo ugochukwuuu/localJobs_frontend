@@ -6,7 +6,9 @@
     import { ref } from 'vue';
     import { supabase } from '@/config/supabase';
     import router from "@/Router/router";
+    import load1 from "@/components/loader/load1.vue";
 
+    const isLoading = ref(false)
 
     const toast = useToast();
 
@@ -62,16 +64,18 @@
     const registerFunc = async (e)=>{
         e.preventDefault();
 
+
         if(!validate()) return;
 
+
         console.log(formData)
-        
         registerUser(formData);
 
     }
 
 const registerUser = async () => {
   console.log('registering...')
+  isLoading.value = true;
   const { data: authUser, error: authError } = await supabase.auth.signUp({
     email:formData.email,
     password:formData.password,
@@ -88,7 +92,11 @@ const registerUser = async () => {
         localStorage.setItem('authToken',authToken);
     }
     localStorage.setItem('userRole',formData.role);
+    localStorage.setItem("userId", authUser.user.id);
+
+    isLoading.value = false;
 }
+
 
 
   // Save the user to a custom table
@@ -111,7 +119,9 @@ const registerUser = async () => {
     console.log('User data saved to custom table.');
     toast.success('You have successfully registered');
 
-    router.replace(`/${formData.role}/jobs/${authUser.user.id}`);
+    router.replace(`/${formData.role}/jobs/${authUser.user.id}`).then(()=>{
+        location.reload();
+    });
   }
   
 };
@@ -133,6 +143,7 @@ const registerUser = async () => {
 <body>
     <main class="signupPage">
         <div class="left-div">
+            <load1 v-if="isLoading"/>
             <div class="ld-wrapper">
                 <h2>Create Your Account✨</h2>
                 <form class="email-form" @submit="registerFunc">

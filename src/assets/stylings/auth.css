@@ -10,9 +10,6 @@ input[type = 'text']{
 button{
     cursor: pointer;
 }
-body{
-    min-height: 100vh;
-}
 main{
     display: flex;
     flex-direction: row;
@@ -27,7 +24,7 @@ a,p,button{
     justify-content: center;
     min-height: 100vh;
     flex: 1;
-    background-color: var(--lightest-green)
+    background-color: var(--lightest-green);
 }
 .right-div{
     background-color: var(--dark-green);
@@ -40,16 +37,14 @@ a,p,button{
 }
 .ld-wrapper{
     width: 60%;
-    /* width: clamp(1rem,80%,500px); */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 .ld-wrapper h2{
-    font-size: 2em;
+    font-size: 2rem;
     font-family: "Playfair Display", serif;
-    /* line-height: 3em; */
     margin-bottom: 1rem;
     text-align: center;
 }
@@ -167,9 +162,7 @@ button,input{
 }
 @media (max-width: 1024px) {
  .right-div {
-        flex: 1 1 100%;
-        min-height: auto;
-        height: auto;
+        display: none;
     }
     main {
         flex-direction: column;
@@ -179,5 +172,11 @@ button,input{
         width:100%;
         width: 90vw;
         width: clamp(1rem,90vw,600px);
+    }
+}
+@media (max-width:500px){
+    .left-div{
+        justify-content: flex-start;
+        padding-top: 2rem;
     }
 }

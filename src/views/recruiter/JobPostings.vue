@@ -54,7 +54,7 @@ onMounted(() => {
         Add job
       </div>
       <h1 class="raleway">Job Postings</h1>
-      <p>You have posted {{ postedJobs.length }} job(s).</p>
+      <p class = "jobs-amount">You have posted {{ postedJobs.length }} job(s).</p>
 
       <div class="card-container">
         <JobCard v-for="job in postedJobs" :key="job.id" :job="job" />

@@ -137,6 +137,9 @@
     margin-left: 5px;
 }
 
+.jobs-amount{
+  margin-top: 1rem;
+}
 .job-action-buttons{
     display: flex;
     flex-wrap: wrap;
