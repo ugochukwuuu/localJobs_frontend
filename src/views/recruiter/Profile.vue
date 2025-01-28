@@ -9,10 +9,16 @@
     import store from "@/store/store";
     const toast = useToast();
     const userId  = store.state.userId;
-    const allowEdit = ref(false);
 
-    const isGettingDetails = ref(false)
+    const allowEdit = ref(false);
+    const isGettingDetails = ref(false);
+    const isUpdating = ref(false);
+
+    const originalFile = ref(null);
+
     const userDetails = ref({});
+    const publicUrl = ref(null);
+
     const allowEditFunc = ()=>{
         allowEdit.value = !allowEdit.value;
     }
@@ -64,6 +70,62 @@
         isGettingDetails.value = false;
     }
 
+    const checkUniqueDetails = async (newEmail, newPhone, userId)=>{
+
+        const cleanEmail = newEmail.trim().toLowerCase();
+        const cleanPhone = newPhone.replace(/[-\s]/g, '');
+
+
+
+        const {data,error} = await supabase
+        .from('users')
+        .select('id,email,phone_no')
+        .or(`email.eq.${cleanEmail},phone_no.eq.${cleanPhone}`) 
+
+        .neq('id',userId)
+
+        if(error){
+            console.error(error)
+        }
+        return data?.length > 0
+    }
+
+    const handleFileUpload = async (event) => {
+            const file = event.target.files[0];
+            if (!file) return false;
+
+
+            const VALID_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+            const MAX_SIZE_MB = 5;
+            const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
+
+            const resetFileInput = () => {
+                event.target.value = null;
+                updateFormData.profile_img = null;
+            };
+
+
+            if (!VALID_TYPES.includes(file.type)) {
+                toast.error(`Invalid file type. Allowed types: ${VALID_TYPES.join(', ')}`);
+                resetFileInput();
+                return false;
+            }
+
+
+            if (file.size > MAX_SIZE_BYTES) {
+                toast.error(`File too large (max ${MAX_SIZE_MB}MB)`);
+                resetFileInput();
+                return false;
+            }
+
+            const fileName = `${Date.now()}_${file.name}`;
+            updateFormData.profile_img = fileName;
+            originalFile.value = file;
+            return true;
+    };
+
+
     const handleUpdateDetails = async (e)=>{
         e.preventDefault();
 
@@ -79,68 +141,35 @@
         await updateDetails();
     }
     
+     
 
-        const handleFileUpload = async (event) => {
-        const file = event.target.files[0];
-        if (!file) return false;
+    const uploadImage = async (file) => {
+                try {
+                    console.log('uploading the file to storage');
+                    const fileName = updateDetails.profile_img || `profile_${Date.now()}_${file.name}`;
+                    const { data, error } = await supabase.storage
+                    .from('images') 
+                    .upload(fileName, file);
 
+                    if (error) throw error;
 
-        const VALID_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
-        const MAX_SIZE_MB = 5;
-        const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+                    console.log("getting the public url of the image")                    
+                    const { data: urlData } = supabase.storage
+                    .from('images')
+                    .getPublicUrl(fileName);
 
-
-        const resetFileInput = () => {
-            event.target.value = null;
-            updateFormData.profile_img = null;
-        };
-
-
-        if (!VALID_TYPES.includes(file.type)) {
-            toast.error(`Invalid file type. Allowed types: ${VALID_TYPES.join(', ')}`);
-            resetFileInput();
-            return false;
-        }
-
-
-        if (file.size > MAX_SIZE_BYTES) {
-            toast.error(`File too large (max ${MAX_SIZE_MB}MB)`);
-            resetFileInput();
-            return false;
-        }
-
-            updateFormData.profile_img = file;
-            return true;
+                    return urlData.publicUrl;
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    return null;
+                }
     };
 
-    const checkUniqueDetails = async (newEmail, newPhone, userId)=>{
- 
-        const cleanEmail = newEmail.trim().toLowerCase();
-        const cleanPhone = newPhone.replace(/[-\s]/g, '');
-
-
-
-        const {data,error} = await supabase
-            .from('users')
-            .select('id,email,phone_no')
-            .or(`email.eq.${cleanEmail},phone_no.eq.${cleanPhone}`) 
-        
-            .neq('id',userId)
-
-            if(error){
-                console.error(error)
-            }
-
-               // 3. Debug logs
-            console.log('Query filter:', `email.eq.${cleanEmail},phone_no.eq.${cleanPhone}`);
-            console.log('UserID type:', typeof userId);
-            console.log('Raw data:', data);
-            return data?.length > 0
-    }
-
+   
     const updateDetails = async ()=>{
-            console.log('updating');
-            console.log(updateFormData.email, updateFormData.phone_no)
+            
+            isUpdating.value = true;
+
             const isDuplicate = await checkUniqueDetails(
                 updateFormData.email,
                 updateFormData.phone_no,
@@ -149,10 +178,24 @@
 
             if(isDuplicate){
                 alert("Email or phone number already exists")
+                isUpdating.value = false;
                 return
             }
 
-            allowEdit.value = true;
+            if (!originalFile.value) {
+                console.error('No file selected for upload');
+                isUpdating.value = false;
+                return;
+
+            }
+            const uploadResponse = await uploadImage(originalFile.value);
+       
+            if(uploadResponse){
+                updateFormData.profile_img = uploadResponse;
+            }
+
+
+            console.log(updateFormData)
 
             const { data, error } = await supabase
             .from('users')
@@ -168,11 +211,14 @@
         
         if (error) {
             console.error('Update failed:', error);
+            isUpdating.value = false;
             toast.error('Failed to update profile. Please try again.');
             return;
         }
             toast.success('Profile updated successfully');
-            allowEdit.value = false;
+            console.log(data)
+            // location.reload();
+            isUpdating.value = false;
         
     }
 
@@ -187,6 +233,7 @@
 <template>
     <main class="user-profile">
         <load1 v-if="isGettingDetails"/>
+        <load1 v-if="isUpdating"/>
          <div v-if="!allowEdit" class="user-details-cont">
             <div class="avatar-cont d-flex align-items-left justify-content-center">
                 <img 

@@ -7,12 +7,13 @@ const notFoundView = () => import('@/views/notFound.vue');
 const freelancerSkeleton = () => import('@/views/freelancer/FreeLancerSkeleton.vue')
 const freelancerJobsView = () => import('@/views/freelancer/Jobs.vue')
 const freelancerProposalsView = () => import('@/views/freelancer/Proposals.vue')
-const freelancerProfileView = () => import('@/views/freelancer/Profile.vue')
+
 
 import recruiterSkeleton from '@/views/recruiter/RecruiterSkeleton.vue'
 import recruiterJobsPostingView from '@/views/recruiter/JobPostings.vue'
 import recruiterApplicationView from '@/views/recruiter/Proposals.vue'
 import profileView from '@/views/recruiter/Profile.vue'
+
 
 
 const router = createRouter({
