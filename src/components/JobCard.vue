@@ -133,7 +133,7 @@ onMounted(()=>{
     <div class="job-card d-flex flex-column">
         <loadAnim v-if= "isDeleting"/>
         <loadAnim v-if= "isApplying"/>
-        <div class="recruiter-details d-flex flex-row">
+        <div v-if="userRole == 'freelancer'" class="recruiter-details d-flex flex-row">
             <p class = "job-description">{{job.recruiter.name}}</p>  
             <p class = "job-description">{{job.recruiter.email}}</p>  
         </div>

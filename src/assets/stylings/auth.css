@@ -175,8 +175,5 @@ button,input{
     }
 }
 @media (max-width:500px){
-    .left-div{
-        justify-content: flex-start;
-        padding-top: 2rem;
-    }
+    
 }

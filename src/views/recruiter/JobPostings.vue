@@ -22,7 +22,7 @@ const getAllJobs = async () => {
   if (error) {
     console.log("Error getting jobs", error.message);
   }
-  console.log(jobs);
+
   
   postedJobs.value = jobs;
   jobsDataLoading.value = false;
