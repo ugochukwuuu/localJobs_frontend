@@ -63,7 +63,7 @@
             console.log('Applicant Email:', selectedApplicant.applicant.email);
             console.log('Applicant Name:', selectedApplicant.applicant.name);
 
-            // Validate the selected applicant
+         
             if (!selectedApplicant || !selectedApplicant.applicant) {
                 isSendingEmail.value = false;
                 toast.error('Applicant not found or invalid data.');
@@ -104,12 +104,12 @@
         const getAllJobs = async ()=>{
             isGettingProposals.value = true;
 
-            let {data:jobs, error} = await supabase
-            .from('jobs')
-            .select(`*,
-            applicants:applications(*,
-            applicant:users(*))`)
-            .eq('recruiter_id',userId)
+            let { data: jobs, error } = await supabase
+                .from('jobs')
+                .select(`*,
+                    applicants:applications(*,
+                    applicant:users(*))`)
+                .eq('recruiter_id', userId);
 
             if(error){
                 console.error(error)
@@ -159,6 +159,15 @@
                     <button 
                         class="accept-button" 
                         @click="openEmailModal(applicant.id)" 
+                        v-if="!showEmail || selectedApplicantId !== applicant.id"
+                    >
+                        Accept
+                        <i class="pi pi-thumbs-up"></i>
+                    </button>
+                    
+                    <button 
+                        class="reject-button" 
+                        @click="rejectApplic" 
                         v-if="!showEmail || selectedApplicantId !== applicant.id"
                     >
                         Accept
