@@ -217,7 +217,7 @@
         }
             toast.success('Profile updated successfully');
             console.log(data)
-            // location.reload();
+            location.reload();
             isUpdating.value = false;
         
     }
