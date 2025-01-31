@@ -12,6 +12,7 @@ const freelancerProposalsView = () => import('@/views/freelancer/Proposals.vue')
 import recruiterSkeleton from '@/views/recruiter/RecruiterSkeleton.vue'
 import recruiterJobsPostingView from '@/views/recruiter/JobPostings.vue'
 import recruiterApplicationView from '@/views/recruiter/Proposals.vue'
+
 import profileView from '@/views/recruiter/Profile.vue'
 
 
@@ -63,7 +64,7 @@ const router = createRouter({
                 },
                 {
                     path: 'profile/:userId',
-                    name: 'Profile',
+                    name: 'FreelancerProfile',
                     component: profileView
                 },
             ]

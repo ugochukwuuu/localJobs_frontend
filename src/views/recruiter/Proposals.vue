@@ -13,6 +13,8 @@
 
         const showEmail = ref(false);
         const isGettingProposals = ref(false)
+        const isRejectingProposal = ref(false)
+        const isAcceptingProposal = ref(false)
         const isSendingEmail = ref(false)
 
 
@@ -62,6 +64,7 @@
             console.log('Selected Applicant:', selectedApplicant);
             console.log('Applicant Email:', selectedApplicant.applicant.email);
             console.log('Applicant Name:', selectedApplicant.applicant.name);
+            console.log('Applicant Id:', selectedApplicant.applicant.id);
 
          
             if (!selectedApplicant || !selectedApplicant.applicant) {
@@ -89,8 +92,8 @@
             try {
                 const response = await brevoService.sendEmail(payload);
                 isSendingEmail.value = false;
-                console.log('Email sent successfully:', response.data);
-                toast.success('Email sent successfully!');
+                
+                acceptApplication(selectedApplicant)
                 closeEmailModal();
             } catch (error) {
                             console.error('Error sending email:', error.response || error);
@@ -100,6 +103,50 @@
             }
              }
         
+        const rejectApplication = async (id)=>{
+         
+                isRejectingProposal.value = true;
+                const {data,error} = await supabase
+                .from('applications')
+                .update({status:    "rejected"})
+                .eq("applicant_id",id.applicant_id)
+                .eq("job_id",id.job_id)
+
+                if(error){
+                    console.error(error)
+                    isRejectingProposal.value = false;
+
+                }
+
+                console.log(data)
+                isRejectingProposal.value = false;
+                toast.success(`you've rejected ${id.applicant.name} proposal`);
+                getAllJobs();
+
+
+        }
+        const acceptApplication = async (id)=>{
+         
+            console.log("applicant id from accept function:",id.applicant_id)
+            console.log("job id from accept function:",id.job_id)
+                isAcceptingProposal.value = true;
+                const {data,error} = await supabase
+                .from('applications')
+                .update({status: "accepted"})
+                .eq("applicant_id",id.applicant_id)
+                .eq("job_id",id.job_id)
+
+                if(error){
+                    console.error(error)
+                    isAcceptingProposal.value = false;
+
+                }
+                isAcceptingProposal.value = false;
+                toast.success(`you've accepted ${id.applicant.name} proposal`);
+                getAllJobs();
+
+
+        }
 
         const getAllJobs = async ()=>{
             isGettingProposals.value = true;
@@ -118,7 +165,6 @@
             }
 
             allData.value = jobs
-            console.log(toRaw(allData.value))
             isGettingProposals.value = false;
 
         }
@@ -134,6 +180,7 @@
     <div class="proposals">
         <load1 v-if="isGettingProposals" />
         <load1 v-if="isSendingEmail" />
+        <load1 v-if="isRejectingProposal" />
 
         <div v-for="jobs in allData" :key="jobs.id" class="job-card">
             <div class="job-header">
@@ -157,7 +204,7 @@
                     </details>
 
                     <button 
-                        class="accept-button" 
+                        class="accept-button action-button" 
                         @click="openEmailModal(applicant.id)" 
                         v-if="!showEmail || selectedApplicantId !== applicant.id"
                     >
@@ -166,12 +213,12 @@
                     </button>
                     
                     <button 
-                        class="reject-button" 
-                        @click="rejectApplic" 
+                        class="reject-button action-button" 
+                        @click="rejectApplication(applicant)" 
                         v-if="!showEmail || selectedApplicantId !== applicant.id"
                     >
-                        Accept
-                        <i class="pi pi-thumbs-up"></i>
+                        Reject
+                        <i class="pi pi-thumbs-down"></i>
                     </button>
 
                     <div class="email-modal" v-if="showEmail && selectedApplicantId === applicant.id">
@@ -302,7 +349,7 @@
     color: #555;
 }
 
-.accept-button {
+.accept-button,.action-button {
     background: #3b82f6;
     color: white;
     border: none;
@@ -334,11 +381,13 @@
 }
 
 .accept-button:hover {
-    background-color: #e5e7eb; 
-    background: #81a9ff;
+    background: var(--action-add-hover);
+  transform: translateY(-1px);
   transform: translateY(-1px);
 }
-
+.reject-button:hover {
+  background: var(--action-delete-hover);
+}
 .email-modal {
     position: fixed;
     top: 0;

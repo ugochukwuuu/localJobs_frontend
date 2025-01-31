@@ -1,4 +1,4 @@
-<script setup>
+ <script setup>
     import Job from '@/components/Job.vue';
     import { onMounted,reactive,ref } from 'vue';
     import {supabase} from '@/config/supabase';

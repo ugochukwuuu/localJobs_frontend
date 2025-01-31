@@ -668,6 +668,13 @@ input[disabled] {
   .search-dropdown option{
     font-size: .7rem;
   }
+  .modal-content{
+    padding-top: 0;
+  }
+  .cancel {
+    top: 0;
+    background: none;
+}
     
 }
 /* .dropdown-container{

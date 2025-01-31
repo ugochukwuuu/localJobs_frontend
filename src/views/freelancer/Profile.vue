@@ -1,9 +1,6 @@
 <script setup>
      import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
     import {ref,onMounted} from 'vue';
-    import apiConfig from '@/config/apiConfig';
-    import axios from 'axios';
-    import { jwtDecode } from "jwt-decode";
 
     localStorage.setItem('userRole',payload.user_role);
     const userRole = localStorage.userRole;
